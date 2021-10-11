@@ -28,6 +28,7 @@ function EditProduct(props){
             if(res.data.status === 200)
             {
                 setProduct(res.data.product)
+                setCheckbox(res.data.product)
             }
             else if(res.data.status === 404)
             {
@@ -50,11 +51,10 @@ function EditProduct(props){
         original_price: '',
         qty: '',
         image: '',
-        featured: '',
-        popular: '',
+      
         name: '',
         description: '',
-        status: '',
+   
         meta_title: '',
         meta_keyword: '',
         meta_descrip: '', 
@@ -79,6 +79,16 @@ function EditProduct(props){
         
     }
 
+    const [allcheckbox, setCheckbox] = useState([])
+
+    const handleCheckbox = (e) =>{
+        e.persist();
+        setCheckbox({...allcheckbox, [e.target.name]: e.target.checked });
+        
+    }
+
+    
+
     if(loading)
     {
         return <h4>Loading product....</h4>
@@ -93,7 +103,7 @@ function EditProduct(props){
         formData.append('slug',productInput.slug);
         formData.append('name',productInput.name);
         formData.append('description',productInput.description);
-        formData.append('status',productInput.status);
+        formData.append('status',allcheckbox.status ? '1': '0');
         formData.append('meta_title',productInput.meta_title);
         formData.append('meta_keyword',productInput.meta_keyword);
         formData.append('meta_descrip',productInput.meta_descrip);
@@ -102,8 +112,8 @@ function EditProduct(props){
         formData.append('selling_price',productInput.selling_price);
         formData.append('original_price',productInput.original_price);
         formData.append('qty',productInput.qty);
-        formData.append('featured',productInput.featured);
-        formData.append('popular',productInput.popular);
+        formData.append('featured',allcheckbox.featured ?'1': '0');
+        formData.append('popular',allcheckbox.popular ? '1': '0');
 
 
         axios.post(`/api/update-product/${product_id}`, formData).then(res =>{
@@ -111,6 +121,7 @@ function EditProduct(props){
             {
                     swal("Success", res.data.message, "success");
                    setError([]);
+                   
                     //document.getElementById('CATEGORY_FORM').reset();
             }
             else if(res.data.status === 422)
@@ -262,13 +273,13 @@ function EditProduct(props){
     <div className="form-group mb-3">
         <label>Image</label>
         <input type="file" name="image" onChange={handImage} className="form-control" />
-        <img src={`http://127.0.0.1:8000/${productInput.image}`} width="200px"  />
+        <img src={`http://127.0.0.1:8000/${productInput.image}`} width="200px" alt="" />
         <span className="text-danger">{errorlist.image}</span>
     </div>
 
     <div className="form-group mb-3">
                     <label>Feature</label>
-                    <input type="checkbox"  name="featured"  onChange={handleInput} value={productInput.featured} />
+                    <input type="checkbox"  name="featured"  onChange={handleCheckbox} defaultChecked={allcheckbox.featured === 1 ? true:false} />
                    
                     (checked=show)
 
@@ -276,7 +287,7 @@ function EditProduct(props){
 
                 <div className="form-group mb-3">
                     <label>popular</label>
-                    <input type="checkbox"  name="popular"  onChange={handleInput} value={productInput.popular} />
+                    <input type="checkbox"  name="popular"  onChange={handleCheckbox} defaultChecked={allcheckbox.popular === 1 ? true:false} />
                    
                     (checked=show)
 
@@ -284,12 +295,13 @@ function EditProduct(props){
 
 
                 <div className="form-group mb-3">
-                    <label>Feature</label>
-                    <input type="checkbox"  name="featured"  onChange={handleInput} value={productInput.featured} />
+                    <label>status</label>
+                    <input type="checkbox"  name="status"  onChange={handleCheckbox} defaultChecked={allcheckbox.status === 1 ? true:false} />
                    
                     (checked=show)
 
                 </div>
+
 
 
 

@@ -38,8 +38,16 @@ function ViewProduct()
 
     else
     {
+        var ProductStatus = '';
         viewproduct_HTMLTABLE = 
         productlist.map( (item) => {
+           if( item.status == '0')
+           {
+            ProductStatus = 'Shown';
+           }else if(item.status == '1')
+           {
+            ProductStatus = 'Hidden';
+           }
             return (
                 <tr key={item.id}>
                     <td>{item.id}</td>
@@ -52,8 +60,7 @@ function ViewProduct()
                         <Link to={`edit-product/${item.id}`}  className="btn btn-success btn-sm">Edit</Link>
                     </td>
                     <td>
-                        <button type="button"   className="btn btn-danger btn-sm">Delete</button>
-                       
+                       {ProductStatus}
                     </td>
                 </tr>
             )
@@ -84,7 +91,7 @@ return(
                                             <th>Slling Price</th>
                                             <th>Image</th>
                                             <th>Edit</th>
-                                            <th>Delete</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
