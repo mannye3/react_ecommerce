@@ -273,7 +273,7 @@ function EditProduct(props){
     <div className="form-group mb-3">
         <label>Image</label>
         <input type="file" name="image" onChange={handImage} className="form-control" />
-        <img src={`https://eco.fosl-ailesgroup.com/${productInput.image}`} width="200px" alt="" />
+        <img src={`http://127.0.0.1:8000/${productInput.image}`} width="200px" alt="" />
         <span className="text-danger">{errorlist.image}</span>
     </div>
 
