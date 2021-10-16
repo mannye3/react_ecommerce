@@ -79,7 +79,7 @@ function ViewProduct(props){
                 <div className="col-md-3" key={idx}>
                 <div className="card">
                 <Link to={`/collections/${item.category.slug}/${item.slug}`}>
-                    <img src={`http://127.0.0.1:8000/${item.image}`} className="w-100" alt={item.name} />
+                    <img src={`https://eco.fosl-ailesgroup.com/${item.image}`} className="w-100" alt={item.name} />
                     </Link>
                     <div className="card-body">
                     <Link to={`/collections/${item.category.slug}/${item.slug}`}>

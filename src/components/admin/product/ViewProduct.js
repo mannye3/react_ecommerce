@@ -54,7 +54,7 @@ function ViewProduct()
                     <td>{item.category.name}</td>
                     <td>{item.name}</td>
                     <td>{item.selling_price}</td>
-                    <td><img src={`http://127.0.0.1:8000/${item.image}`} width="50px" alt={item.name} /></td>
+                    <td><img src={`https://eco.fosl-ailesgroup.com/${item.image}`} width="50px" alt={item.name} /></td>
                   
                     <td>
                         <Link to={`edit-product/${item.id}`}  className="btn btn-success btn-sm">Edit</Link>

@@ -10,6 +10,8 @@ function ProductDetail(props){
     const [loading, setloading ] = useState(true);
     const History = useHistory();
     const [product, setProduct ] = useState([]);
+    const [quantity, setQuantity] = useState(1);
+
 
     const productCount = product.length;
     useEffect(() => {
@@ -48,6 +50,55 @@ function ProductDetail(props){
       
     }, [props.match.params.category, props.match.params.product, History]);
 
+
+    const handleDecrement = () =>{
+        if(quantity > 1)
+        {
+            setQuantity(prevCount => prevCount - 1 )
+        }
+       
+    }
+
+    const handleIncrement = () =>{
+        if(quantity < 10)
+        {
+        setQuantity(prevCount => prevCount + 1 )
+        }
+    }
+
+
+    const submitAddtocart = (e) =>{
+        e.preventDefault();
+
+        const data = {
+            product_id: product.id,
+            product_qty: quantity,
+        }
+
+        axios.post(`/api/add-to-cart`, data).then(res=>{
+           
+              if(res.data.status === 201)
+              {
+                swal("Success", res.data.message, "success");     
+              }
+              else if(res.data.status === 409)
+              {  
+                swal("Warning", res.data.message, "warning");
+              }
+              else if(res.data.status === 401)
+              {  
+                swal("Error", res.data.message, "error");
+              }
+
+              else if(res.data.status === 404)
+              {  
+                swal("Warning", res.data.message, "warning");
+              }
+
+              
+          });
+    }
+
     if(loading)
     {
         return <h4>Loading product Detail....</h4>
@@ -66,14 +117,15 @@ function ProductDetail(props){
             <div className="row">
                 <div className="col-md-3 mt-3">
                     <div className="input-group">
-                        <button  type="button" className="input-group-text">-</button>
-                        <input type="text" className="form-control text-center" value="1"/>
-                        <button  type="button" className="input-group-text">+</button>
+                        <button  type="button" onClick={handleDecrement} className="input-group-text">-</button>
+                        
+                        <div className="form-control text-center">{quantity}</div>
+                        <button  type="button" onClick={handleIncrement} className="input-group-text">+</button>
                     </div>
                     </div>
 
                     <div className="col-md-3 mt-3">
-                    <button  type="button" className="btn btn-primary w-100">Add to cart</button>
+                    <button  type="button" onClick={submitAddtocart} className="btn btn-primary w-100">Add to cart</button>
 
                     </div>
 
@@ -119,7 +171,7 @@ function ProductDetail(props){
 					<div className="preview col-md-6">
 						
 						<div className="preview-pic tab-content">
-						  <div className="tab-pane active w-100" id="pic-1"><img src={`http://127.0.0.1:8000/${product.image}`} alt={product.name} /></div>
+						  <div className="tab-pane active w-100" id="pic-1"><img src={`https://eco.fosl-ailesgroup.com/${product.image}`} alt={product.name} /></div>
 						  
 						</div>
 					
